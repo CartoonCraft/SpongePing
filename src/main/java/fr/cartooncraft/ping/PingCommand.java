@@ -7,6 +7,7 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.TextTemplate;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
@@ -18,7 +19,8 @@ import static org.spongepowered.api.text.TextTemplate.arg;
  */
 public class PingCommand implements CommandExecutor {
 
-	TextTemplate pingTemplate = TextTemplate.of(TextColors.GREEN, arg("player").style(TextStyles.BOLD), "'s latency is ", arg("ping").style(TextStyles.BOLD));
+	TextTemplate pingTemplate = TextTemplate.of(TextColors.GREEN, arg("player").style(TextStyles.BOLD), "'s latency is ", arg("ping").style(TextStyles.BOLD), ".");
+	Text specifyPlayer = Text.builder("Please specify a player.").color(TextColors.RED).style(TextStyles.BOLD).build();
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
@@ -30,6 +32,7 @@ public class PingCommand implements CommandExecutor {
 			p = (Player)src;
 		}
 		else {
+			src.sendMessage(specifyPlayer);
 			return CommandResult.empty();
 		}
 
