@@ -56,7 +56,7 @@ public class Ping {
 		Sponge.getCommandManager().register(this, pingCommandSpec, "ping", "latency");
 		config = new PingConfig(defaultConfig);
 		PingScoreboards.initPingObjective();
-		Sponge.getScheduler().createTaskBuilder().execute(PingScoreboards::refreshPing).async().interval(1, TimeUnit.SECONDS).name("Ping - Refresh Scoreboard").submit(this);
+		Sponge.getScheduler().createTaskBuilder().execute(PingScoreboards::refreshPing).interval(1, TimeUnit.SECONDS).name("Ping - Refresh Scoreboard").submit(this);
 		onReload();
 		getLogger().info("Rush plugin initialized.");
 	}
