@@ -34,6 +34,21 @@ public class PingConfig {
 		return rootNode.getNode("scoreboard", "refresh", "enabled").getBoolean(true);
 	}
 
+	public boolean toggleScoreboard() {
+		if(addToScoreboard())
+			rootNode.getNode("scoreboard", "refresh", "enabled").setValue(false);
+		else
+			rootNode.getNode("scoreboard", "refresh", "enabled").setValue(true);
+
+		try {
+			configManager.save(rootNode);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			return addToScoreboard();
+		}
+	}
+
 	void saveConfig() {
 		try {
 			configManager.save(rootNode);

@@ -28,7 +28,7 @@ public class Ping {
 	@DefaultConfig(sharedRoot = true)
 	private Path defaultConfig;
 
-	private PingConfig config;
+	PingConfig config;
 
 	public Logger getLogger() {
 		return logger;
@@ -38,15 +38,21 @@ public class Ping {
 		this.logger = logger;
 	}
 
+	private CommandSpec scoreboardToggleSpec = CommandSpec.builder()
+			.description(Text.of("Toggle latency display in tablist"))
+			.executor(new PingScoreboards(this))
+			.build();
+
 	private CommandSpec pingCommandSpec = CommandSpec.builder()
 			.description(Text.of("Get your/a player's ping"))
 			.executor(new PingCommand())
 			.arguments(GenericArguments.optional(GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))))
+			.child(scoreboardToggleSpec, "scoreboard", "toggle", "toggleScoreboard")
 			.build();
 
 	@Listener
 	public void onServerStart(GameStartedServerEvent event) {
-		Sponge.getCommandManager().register(this, pingCommandSpec, "ping");
+		Sponge.getCommandManager().register(this, pingCommandSpec, "ping", "latency");
 		config = new PingConfig(defaultConfig);
 		PingScoreboards.initPingObjective();
 		Sponge.getScheduler().createTaskBuilder().execute(PingScoreboards::refreshPing).async().interval(1, TimeUnit.SECONDS).name("Ping - Refresh Scoreboard").submit(this);
