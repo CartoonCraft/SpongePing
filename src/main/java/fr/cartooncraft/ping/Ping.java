@@ -40,6 +40,7 @@ public class Ping {
 
 	private CommandSpec scoreboardToggleSpec = CommandSpec.builder()
 			.description(Text.of("Toggle latency display in tablist"))
+			.permission("ping.scoreboard.toggle")
 			.executor(new PingScoreboards(this))
 			.build();
 
